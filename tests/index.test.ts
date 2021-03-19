@@ -145,3 +145,104 @@ test('array', () => {
     }
   `)
 })
+
+test('object', () => {
+  const decode = t.object({
+    a: t.boolean(),
+    b: t
+      .object({
+        c: t.number(),
+      })
+      .array(),
+  }).decode
+
+  expect(decode(false)).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected an object",
+      },
+    }
+  `)
+
+  expect(decode([])).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected an object",
+      },
+    }
+  `)
+
+  expect(decode({})).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected a boolean",
+      },
+    }
+  `)
+
+  expect(decode({ a: 1 })).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected a boolean",
+      },
+    }
+  `)
+
+  expect(decode({ a: true, b: {} })).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected an array",
+      },
+    }
+  `)
+
+  expect(decode({ a: true, b: [] })).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": Object {
+        "a": true,
+        "b": Array [],
+      },
+    }
+  `)
+
+  expect(decode({ a: true, b: [{}] })).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected a number",
+      },
+    }
+  `)
+
+  expect(decode({ a: true, b: [{ c: 1 }, {}] })).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected a number",
+      },
+    }
+  `)
+
+  expect(decode({ a: true, b: [{ c: 1 }, { c: 2 }] })).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": Object {
+        "a": true,
+        "b": Array [
+          Object {
+            "c": 1,
+          },
+          Object {
+            "c": 2,
+          },
+        ],
+      },
+    }
+  `)
+})

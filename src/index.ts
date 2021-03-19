@@ -45,3 +45,23 @@ export const string = (): Decoder<string> =>
       ? { ok: true, value }
       : { ok: false, value: { message: 'expected a string' } },
   )
+
+export const object = <T>(
+  fields: { [K in keyof T]: Decoder<T[K]> },
+): Decoder<T> =>
+  new Decoder(value => {
+    if (Object.prototype.toString.call(value) !== '[object Object]')
+      return { ok: false, value: { message: 'expected an object' } }
+
+    const valueAsRecord = value as Record<string, unknown>
+
+    const decoded: Partial<T> = {}
+
+    for (const key in fields) {
+      const d = fields[key].decode(valueAsRecord[key])
+      if (!d.ok) return d
+      decoded[key] = d.value
+    }
+
+    return { ok: true, value: decoded as T }
+  })
