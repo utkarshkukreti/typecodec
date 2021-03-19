@@ -28,3 +28,32 @@ test('boolean', () => {
     }
   `)
 })
+
+test('number', () => {
+  const decode = t.number().decode
+
+  expect(decode(false)).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected a number",
+      },
+    }
+  `)
+
+  expect(decode(123)).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": 123,
+    }
+  `)
+
+  expect(decode('foo')).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected a number",
+      },
+    }
+  `)
+})

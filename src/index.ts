@@ -14,3 +14,10 @@ export const boolean = (): Decoder<boolean> =>
       ? { ok: true, value }
       : { ok: false, value: { message: 'expected a boolean' } },
   )
+
+export const number = (): Decoder<number> =>
+  new Decoder(value =>
+    typeof value === 'number'
+      ? { ok: true, value }
+      : { ok: false, value: { message: 'expected a number' } },
+  )
