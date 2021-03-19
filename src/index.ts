@@ -32,6 +32,12 @@ export class Decoder<T> {
       return { ok: true, value: decoded }
     })
   }
+
+  optional(): Decoder<T | undefined> {
+    return new Decoder<T | undefined>(value =>
+      value === undefined ? { ok: true, value: undefined } : this.decode(value),
+    )
+  }
 }
 
 export const boolean = (): Decoder<boolean> =>

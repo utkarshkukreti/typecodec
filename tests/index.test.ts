@@ -262,3 +262,39 @@ test('object', () => {
     }
   `)
 })
+
+test('optional', () => {
+  const decode = t.string().array().optional().decode
+
+  expect(decode('foo')).toMatchInlineSnapshot(`
+    Object {
+      "message": "expected an array",
+      "ok": false,
+      "path": Array [],
+      "value": "foo",
+    }
+  `)
+
+  expect(decode(undefined)).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": undefined,
+    }
+  `)
+
+  expect(decode([])).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": Array [],
+    }
+  `)
+
+  expect(decode(['foo'])).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": Array [
+        "foo",
+      ],
+    }
+  `)
+})
