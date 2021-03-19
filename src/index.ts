@@ -17,6 +17,17 @@ export type Error = {
 export class Decoder<T> {
   constructor(public decode: (value: unknown) => Result<T>) {}
 
+  decodeOrThrow(value: unknown): T {
+    const decoded = this.decode(value)
+    if (!decoded.ok)
+      throw new Error(
+        `Decode Error at path=${JSON.stringify(
+          decoded.path,
+        )} message=${JSON.stringify(decoded.message)}`,
+      )
+    return decoded.value
+  }
+
   array(): Decoder<T[]> {
     return new Decoder<T[]>(value => {
       if (!Array.isArray(value)) return error([], 'expected an array', value)

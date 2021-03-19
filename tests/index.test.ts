@@ -298,3 +298,33 @@ test('optional', () => {
     }
   `)
 })
+
+test('decodeOrThrow', () => {
+  const decoder = t.object({ a: t.string().array() })
+
+  try {
+    decoder.decodeOrThrow({})
+    fail()
+  } catch (error) {
+    expect(error).toMatchInlineSnapshot(
+      `[Error: Decode Error at path=["a"] message="expected an array"]`,
+    )
+  }
+
+  try {
+    decoder.decodeOrThrow({ a: ['foo', 2] })
+    fail()
+  } catch (error) {
+    expect(error).toMatchInlineSnapshot(
+      `[Error: Decode Error at path=["a",1] message="expected a string"]`,
+    )
+  }
+
+  expect(decoder.decodeOrThrow({ a: ['foo'] })).toMatchInlineSnapshot(`
+    Object {
+      "a": Array [
+        "foo",
+      ],
+    }
+  `)
+})
