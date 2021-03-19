@@ -6,6 +6,23 @@ export type Error = {
 
 export class Decoder<T> {
   constructor(public decode: (value: unknown) => Result<T>) {}
+
+  array(): Decoder<T[]> {
+    return new Decoder(value => {
+      if (!Array.isArray(value))
+        return { ok: false, value: { message: 'expected an array' } }
+
+      const decoded = []
+
+      for (let i = 0; i < value.length; i++) {
+        const d = this.decode(value[i])
+        if (!d.ok) return d
+        decoded.push(d.value)
+      }
+
+      return { ok: true, value: decoded }
+    })
+  }
 }
 
 export const boolean = (): Decoder<boolean> =>

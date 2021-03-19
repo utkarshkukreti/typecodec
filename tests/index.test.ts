@@ -86,3 +86,62 @@ test('string', () => {
     }
   `)
 })
+
+test('array', () => {
+  const decode = t.string().array().decode
+
+  expect(decode(false)).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected an array",
+      },
+    }
+  `)
+
+  expect(decode({})).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected an array",
+      },
+    }
+  `)
+
+  expect(decode([])).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": Array [],
+    }
+  `)
+
+  expect(decode(['foo'])).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": Array [
+        "foo",
+      ],
+    }
+  `)
+
+  expect(decode(['foo', 1])).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected a string",
+      },
+    }
+  `)
+
+  expect(decode(['foo', 'bar', 'baz', 'quux'])).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": Array [
+        "foo",
+        "bar",
+        "baz",
+        "quux",
+      ],
+    }
+  `)
+})
