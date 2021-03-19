@@ -8,4 +8,9 @@ export class Decoder<T> {
   constructor(public decode: (value: unknown) => Result<T>) {}
 }
 
-export const sum = (a: number, b: number) => a + b
+export const boolean = (): Decoder<boolean> =>
+  new Decoder(value =>
+    typeof value === 'boolean'
+      ? { ok: true, value }
+      : { ok: false, value: { message: 'expected a boolean' } },
+  )
