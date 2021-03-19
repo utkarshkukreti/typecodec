@@ -44,9 +44,13 @@ export class Decoder<T> {
     })
   }
 
-  optional(): Decoder<T | undefined> {
+  optional(): Decoder<T | undefined>
+  optional(defaultValue: T): Decoder<T>
+  optional(defaultValue?: T): Decoder<T | undefined> {
     return new Decoder<T | undefined>(value =>
-      value === undefined ? { ok: true, value: undefined } : this.decode(value),
+      value === undefined
+        ? { ok: true, value: defaultValue ?? undefined }
+        : this.decode(value),
     )
   }
 }

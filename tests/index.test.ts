@@ -297,6 +297,33 @@ test('optional', () => {
       ],
     }
   `)
+
+  {
+    const decode = t.number().optional(-1).decode
+
+    expect(decode(null)).toMatchInlineSnapshot(`
+      Object {
+        "message": "expected a number",
+        "ok": false,
+        "path": Array [],
+        "value": null,
+      }
+    `)
+
+    expect(decode(undefined)).toMatchInlineSnapshot(`
+      Object {
+        "ok": true,
+        "value": -1,
+      }
+    `)
+
+    expect(decode(123)).toMatchInlineSnapshot(`
+      Object {
+        "ok": true,
+        "value": 123,
+      }
+    `)
+  }
 })
 
 test('decodeOrThrow', () => {
