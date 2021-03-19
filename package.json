@@ -1,14 +1,14 @@
 {
-  "name": "change-me",
+  "name": "typecodec",
   "version": "0.0.0",
   "description": "...",
   "keywords": [],
-  "main": "dist/change-me.umd.js",
-  "module": "dist/change-me.es.js",
+  "main": "dist/typecodec.umd.js",
+  "module": "dist/typecodec.es.js",
   "exports": {
     ".": {
-      "require": "./dist/change-me.umd.js",
-      "import": "./dist/change-me.es.js"
+      "require": "./dist/typecodec.umd.js",
+      "import": "./dist/typecodec.es.js"
     }
   },
   "typings": "dist/index.d.ts",
