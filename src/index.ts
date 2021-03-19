@@ -21,3 +21,10 @@ export const number = (): Decoder<number> =>
       ? { ok: true, value }
       : { ok: false, value: { message: 'expected a number' } },
   )
+
+export const string = (): Decoder<string> =>
+  new Decoder(value =>
+    typeof value === 'string'
+      ? { ok: true, value }
+      : { ok: false, value: { message: 'expected a string' } },
+  )

@@ -57,3 +57,32 @@ test('number', () => {
     }
   `)
 })
+
+test('string', () => {
+  const decode = t.string().decode
+
+  expect(decode(false)).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected a string",
+      },
+    }
+  `)
+
+  expect(decode(123)).toMatchInlineSnapshot(`
+    Object {
+      "ok": false,
+      "value": Object {
+        "message": "expected a string",
+      },
+    }
+  `)
+
+  expect(decode('foo')).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": "foo",
+    }
+  `)
+})
