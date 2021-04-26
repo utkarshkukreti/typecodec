@@ -326,6 +326,35 @@ test('optional', () => {
   }
 })
 
+test('map', () => {
+  const decode = t.number().map(number => number.toString()).decode
+
+  expect(decode('foo')).toMatchInlineSnapshot(`
+    Object {
+      "message": "expected a number",
+      "ok": false,
+      "path": Array [],
+      "value": "foo",
+    }
+  `)
+
+  expect(decode('123')).toMatchInlineSnapshot(`
+    Object {
+      "message": "expected a number",
+      "ok": false,
+      "path": Array [],
+      "value": "123",
+    }
+  `)
+
+  expect(decode(123)).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": "123",
+    }
+  `)
+})
+
 test('decodeOrThrow', () => {
   const decoder = t.object({ a: t.string().array() })
 

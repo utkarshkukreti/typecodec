@@ -28,6 +28,14 @@ export class Decoder<T> {
     return decoded.value
   }
 
+  map<U>(fun: (_: T) => U): Decoder<U> {
+    return new Decoder(value => {
+      const decoded = this.decode(value)
+      if (!decoded.ok) return decoded
+      return { ok: true, value: fun(decoded.value) }
+    })
+  }
+
   array(): Decoder<T[]> {
     return new Decoder<T[]>(value => {
       if (!Array.isArray(value)) return error([], 'expected an array', value)
