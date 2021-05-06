@@ -14,6 +14,8 @@ export type Error = {
   value: unknown
 }
 
+export type Infer<T> = T extends Decoder<infer U> ? U : never
+
 export class Decoder<T> {
   constructor(public decode: (value: unknown) => Result<T>) {}
 
