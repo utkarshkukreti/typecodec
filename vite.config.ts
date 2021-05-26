@@ -4,7 +4,12 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts',
-      name: 'TypeCodec',
+      formats: ['es'],
+    },
+    rollupOptions: {
+      output: {
+        entryFileNames: 'index.js',
+      },
     },
     sourcemap: true,
   },

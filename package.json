@@ -4,14 +4,9 @@
   "description": "...",
   "keywords": [],
   "type": "module",
-  "main": "dist/typecodec.umd.js",
-  "module": "dist/typecodec.es.js",
-  "exports": {
-    ".": {
-      "require": "./dist/typecodec.umd.js",
-      "import": "./dist/typecodec.es.js"
-    }
-  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "exports": "./dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
