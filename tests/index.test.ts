@@ -127,6 +127,24 @@ test('undefined', () => {
   `)
 })
 
+test('unknown', () => {
+  const decode = t.unknown().decode
+
+  expect(decode(false)).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": false,
+    }
+  `)
+
+  expect(decode(undefined)).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": undefined,
+    }
+  `)
+})
+
 test('array', () => {
   const decode = t.string().array().decode
 

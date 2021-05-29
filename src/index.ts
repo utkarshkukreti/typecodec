@@ -102,6 +102,9 @@ const undefined_ = (): Decoder<undefined> =>
 
 export { undefined_ as undefined }
 
+export const unknown = (): Decoder<unknown> =>
+  new Decoder(value => ({ ok: true, value }))
+
 export const object = <T>(
   fields: { [K in keyof T]: Decoder<T[K]> },
 ): Decoder<T> =>
