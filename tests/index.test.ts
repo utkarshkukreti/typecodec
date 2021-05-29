@@ -87,6 +87,26 @@ test('string', () => {
   `)
 })
 
+test('null', () => {
+  const decode = t.null().decode
+
+  expect(decode(false)).toMatchInlineSnapshot(`
+    Object {
+      "message": "expected null",
+      "ok": false,
+      "path": Array [],
+      "value": false,
+    }
+  `)
+
+  expect(decode(null)).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": null,
+    }
+  `)
+})
+
 test('array', () => {
   const decode = t.string().array().decode
 

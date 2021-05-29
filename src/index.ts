@@ -86,6 +86,13 @@ export const string = (): Decoder<string> =>
       : error([], 'expected a string', value),
   )
 
+const null_ = (): Decoder<null> =>
+  new Decoder(value =>
+    value === null ? { ok: true, value } : error([], 'expected null', value),
+  )
+
+export { null_ as null }
+
 export const object = <T>(
   fields: { [K in keyof T]: Decoder<T[K]> },
 ): Decoder<T> =>
