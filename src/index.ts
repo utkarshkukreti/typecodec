@@ -93,6 +93,15 @@ const null_ = (): Decoder<null> =>
 
 export { null_ as null }
 
+const undefined_ = (): Decoder<undefined> =>
+  new Decoder(value =>
+    value === undefined
+      ? { ok: true, value }
+      : error([], 'expected undefined', value),
+  )
+
+export { undefined_ as undefined }
+
 export const object = <T>(
   fields: { [K in keyof T]: Decoder<T[K]> },
 ): Decoder<T> =>
