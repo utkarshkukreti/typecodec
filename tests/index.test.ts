@@ -384,6 +384,85 @@ test('optional', () => {
   }
 })
 
+test('nullable', () => {
+  const decode = t.string().array().nullable().decode
+
+  expect(decode('foo')).toMatchInlineSnapshot(`
+    Object {
+      "message": "expected an array",
+      "ok": false,
+      "path": Array [],
+      "value": "foo",
+    }
+  `)
+
+  expect(decode(undefined)).toMatchInlineSnapshot(`
+    Object {
+      "message": "expected an array",
+      "ok": false,
+      "path": Array [],
+      "value": undefined,
+    }
+  `)
+
+  expect(decode(null)).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": null,
+    }
+  `)
+
+  expect(decode([])).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": Array [],
+    }
+  `)
+
+  expect(decode(['foo'])).toMatchInlineSnapshot(`
+    Object {
+      "ok": true,
+      "value": Array [
+        "foo",
+      ],
+    }
+  `)
+
+  {
+    const decode = t.number().nullable(-1).decode
+
+    expect(decode(null)).toMatchInlineSnapshot(`
+      Object {
+        "ok": true,
+        "value": -1,
+      }
+    `)
+
+    expect(decode(undefined)).toMatchInlineSnapshot(`
+      Object {
+        "message": "expected a number",
+        "ok": false,
+        "path": Array [],
+        "value": undefined,
+      }
+    `)
+
+    expect(decode(null)).toMatchInlineSnapshot(`
+      Object {
+        "ok": true,
+        "value": -1,
+      }
+    `)
+
+    expect(decode(123)).toMatchInlineSnapshot(`
+      Object {
+        "ok": true,
+        "value": 123,
+      }
+    `)
+  }
+})
+
 test('map', () => {
   const decode = t.number().map(number => number.toString()).decode
 

@@ -63,6 +63,16 @@ export class Decoder<T> {
         : this.decode(value),
     )
   }
+
+  nullable(): Decoder<T | null>
+  nullable(defaultValue: T): Decoder<T>
+  nullable(defaultValue?: T): Decoder<T | null> {
+    return new Decoder<T | null>(value =>
+      value === null
+        ? { ok: true, value: defaultValue ?? null }
+        : this.decode(value),
+    )
+  }
 }
 
 export const boolean = (): Decoder<boolean> =>
