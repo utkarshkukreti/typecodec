@@ -14,7 +14,7 @@
     "src"
   ],
   "scripts": {
-    "build": "tsc && vite build && tsc -P tsconfig.dts.json",
+    "build": "tsup src/index.ts --format esm --dts",
     "test": "jest --coverage",
     "prepare": "pnpm build",
     "format": "prettier --write .",
@@ -26,7 +26,7 @@
     "prettier": "2.4.1",
     "ts-jest": "27.0.7",
     "ts-node": "10.4.0",
-    "typescript": "4.4.4",
-    "vite": "2.6.14"
+    "tsup": "5.7.0",
+    "typescript": "4.4.4"
   }
 }
