@@ -115,9 +115,9 @@ export { undefined_ as undefined }
 export const unknown = (): Decoder<unknown> =>
   new Decoder(value => ({ ok: true, value }))
 
-export const object = <T extends Record<string, unknown>>(
-  fields: { [K in keyof T]: Decoder<T[K]> },
-): Decoder<T> =>
+export const object = <T extends Record<string, unknown>>(fields: {
+  [K in keyof T]: Decoder<T[K]>
+}): Decoder<T> =>
   new Decoder<T>(value => {
     if (Object.prototype.toString.call(value) !== '[object Object]')
       return error([], 'expected an object', value)
