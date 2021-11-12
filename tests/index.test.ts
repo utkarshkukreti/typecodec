@@ -12,7 +12,7 @@ test('boolean', () => {
 
   expect(decode(123)).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a boolean",
+      "message": "expected a boolean, found a number",
       "ok": false,
       "path": Array [],
       "value": 123,
@@ -21,7 +21,7 @@ test('boolean', () => {
 
   expect(decode('foo')).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a boolean",
+      "message": "expected a boolean, found a string",
       "ok": false,
       "path": Array [],
       "value": "foo",
@@ -34,7 +34,7 @@ test('number', () => {
 
   expect(decode(false)).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a number",
+      "message": "expected a number, found a boolean",
       "ok": false,
       "path": Array [],
       "value": false,
@@ -50,7 +50,7 @@ test('number', () => {
 
   expect(decode('foo')).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a number",
+      "message": "expected a number, found a string",
       "ok": false,
       "path": Array [],
       "value": "foo",
@@ -63,7 +63,7 @@ test('string', () => {
 
   expect(decode(false)).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a string",
+      "message": "expected a string, found a boolean",
       "ok": false,
       "path": Array [],
       "value": false,
@@ -72,7 +72,7 @@ test('string', () => {
 
   expect(decode(123)).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a string",
+      "message": "expected a string, found a number",
       "ok": false,
       "path": Array [],
       "value": 123,
@@ -92,7 +92,7 @@ test('null', () => {
 
   expect(decode(false)).toMatchInlineSnapshot(`
     Object {
-      "message": "expected null",
+      "message": "expected null, found a boolean",
       "ok": false,
       "path": Array [],
       "value": false,
@@ -112,7 +112,7 @@ test('undefined', () => {
 
   expect(decode(false)).toMatchInlineSnapshot(`
     Object {
-      "message": "expected undefined",
+      "message": "expected undefined, found a boolean",
       "ok": false,
       "path": Array [],
       "value": false,
@@ -150,7 +150,7 @@ test('array', () => {
 
   expect(decode(false)).toMatchInlineSnapshot(`
     Object {
-      "message": "expected an array",
+      "message": "expected an array, found a boolean",
       "ok": false,
       "path": Array [],
       "value": false,
@@ -159,7 +159,7 @@ test('array', () => {
 
   expect(decode({})).toMatchInlineSnapshot(`
     Object {
-      "message": "expected an array",
+      "message": "expected an array, found an object",
       "ok": false,
       "path": Array [],
       "value": Object {},
@@ -184,7 +184,7 @@ test('array', () => {
 
   expect(decode(['foo', 1])).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a string",
+      "message": "expected a string, found a number",
       "ok": false,
       "path": Array [
         1,
@@ -218,7 +218,7 @@ test('object', () => {
 
   expect(decode(false)).toMatchInlineSnapshot(`
     Object {
-      "message": "expected an object",
+      "message": "expected an object, found a boolean",
       "ok": false,
       "path": Array [],
       "value": false,
@@ -227,7 +227,7 @@ test('object', () => {
 
   expect(decode([])).toMatchInlineSnapshot(`
     Object {
-      "message": "expected an object",
+      "message": "expected an object, found an array",
       "ok": false,
       "path": Array [],
       "value": Array [],
@@ -236,7 +236,7 @@ test('object', () => {
 
   expect(decode({})).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a boolean",
+      "message": "expected a boolean, found undefined",
       "ok": false,
       "path": Array [
         "a",
@@ -247,7 +247,7 @@ test('object', () => {
 
   expect(decode({ a: 1 })).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a boolean",
+      "message": "expected a boolean, found a number",
       "ok": false,
       "path": Array [
         "a",
@@ -258,7 +258,7 @@ test('object', () => {
 
   expect(decode({ a: true, b: {} })).toMatchInlineSnapshot(`
     Object {
-      "message": "expected an array",
+      "message": "expected an array, found an object",
       "ok": false,
       "path": Array [
         "b",
@@ -279,7 +279,7 @@ test('object', () => {
 
   expect(decode({ a: true, b: [{}] })).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a number",
+      "message": "expected a number, found undefined",
       "ok": false,
       "path": Array [
         "b",
@@ -292,7 +292,7 @@ test('object', () => {
 
   expect(decode({ a: true, b: [{ c: 1 }, {}] })).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a number",
+      "message": "expected a number, found undefined",
       "ok": false,
       "path": Array [
         "b",
@@ -326,7 +326,7 @@ test('optional', () => {
 
   expect(decode('foo')).toMatchInlineSnapshot(`
     Object {
-      "message": "expected an array",
+      "message": "expected an array, found a string",
       "ok": false,
       "path": Array [],
       "value": "foo",
@@ -361,7 +361,7 @@ test('optional', () => {
 
     expect(decode(null)).toMatchInlineSnapshot(`
       Object {
-        "message": "expected a number",
+        "message": "expected a number, found null",
         "ok": false,
         "path": Array [],
         "value": null,
@@ -389,7 +389,7 @@ test('nullable', () => {
 
   expect(decode('foo')).toMatchInlineSnapshot(`
     Object {
-      "message": "expected an array",
+      "message": "expected an array, found a string",
       "ok": false,
       "path": Array [],
       "value": "foo",
@@ -398,7 +398,7 @@ test('nullable', () => {
 
   expect(decode(undefined)).toMatchInlineSnapshot(`
     Object {
-      "message": "expected an array",
+      "message": "expected an array, found undefined",
       "ok": false,
       "path": Array [],
       "value": undefined,
@@ -440,7 +440,7 @@ test('nullable', () => {
 
     expect(decode(undefined)).toMatchInlineSnapshot(`
       Object {
-        "message": "expected a number",
+        "message": "expected a number, found undefined",
         "ok": false,
         "path": Array [],
         "value": undefined,
@@ -468,7 +468,7 @@ test('map', () => {
 
   expect(decode('foo')).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a number",
+      "message": "expected a number, found a string",
       "ok": false,
       "path": Array [],
       "value": "foo",
@@ -477,7 +477,7 @@ test('map', () => {
 
   expect(decode('123')).toMatchInlineSnapshot(`
     Object {
-      "message": "expected a number",
+      "message": "expected a number, found a string",
       "ok": false,
       "path": Array [],
       "value": "123",
@@ -500,7 +500,7 @@ test('decodeOrThrow', () => {
     fail()
   } catch (error) {
     expect(error).toMatchInlineSnapshot(
-      `[Error: Decode Error at path=["a"] message="expected an array"]`,
+      `[Error: Decode Error at path=["a"] message="expected an array, found undefined"]`,
     )
   }
 
@@ -509,7 +509,16 @@ test('decodeOrThrow', () => {
     fail()
   } catch (error) {
     expect(error).toMatchInlineSnapshot(
-      `[Error: Decode Error at path=["a",1] message="expected a string"]`,
+      `[Error: Decode Error at path=["a",1] message="expected a string, found a number"]`,
+    )
+  }
+
+  try {
+    decoder.decodeOrThrow({ a: () => {} })
+    fail()
+  } catch (error) {
+    expect(error).toMatchInlineSnapshot(
+      `[Error: Decode Error at path=["a"] message="expected an array, found a function"]`,
     )
   }
 

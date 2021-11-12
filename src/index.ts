@@ -40,7 +40,7 @@ export class Decoder<T> {
 
   array(): Decoder<T[]> {
     return new Decoder<T[]>(value => {
-      if (!Array.isArray(value)) return error([], 'expected an array', value)
+      if (!Array.isArray(value)) return expected([], 'an array', value)
 
       const decoded = []
 
@@ -79,26 +79,26 @@ export const boolean = (): Decoder<boolean> =>
   new Decoder(value =>
     typeof value === 'boolean'
       ? { ok: true, value }
-      : error([], 'expected a boolean', value),
+      : expected([], 'a boolean', value),
   )
 
 export const number = (): Decoder<number> =>
   new Decoder(value =>
     typeof value === 'number'
       ? { ok: true, value }
-      : error([], 'expected a number', value),
+      : expected([], 'a number', value),
   )
 
 export const string = (): Decoder<string> =>
   new Decoder(value =>
     typeof value === 'string'
       ? { ok: true, value }
-      : error([], 'expected a string', value),
+      : expected([], 'a string', value),
   )
 
 const null_ = (): Decoder<null> =>
   new Decoder(value =>
-    value === null ? { ok: true, value } : error([], 'expected null', value),
+    value === null ? { ok: true, value } : expected([], 'null', value),
   )
 
 export { null_ as null }
@@ -107,7 +107,7 @@ const undefined_ = (): Decoder<undefined> =>
   new Decoder(value =>
     value === undefined
       ? { ok: true, value }
-      : error([], 'expected undefined', value),
+      : expected([], 'undefined', value),
   )
 
 export { undefined_ as undefined }
@@ -120,7 +120,7 @@ export const object = <T extends Record<string, unknown>>(fields: {
 }): Decoder<T> =>
   new Decoder<T>(value => {
     if (Object.prototype.toString.call(value) !== '[object Object]')
-      return error([], 'expected an object', value)
+      return expected([], 'an object', value)
 
     const valueAsRecord = value as Record<string, unknown>
 
@@ -141,3 +141,24 @@ const error = (path: Path, message: string, value: unknown): Error => ({
   message,
   value,
 })
+
+const expected = (path: Path, expected: string, value: unknown): Error => {
+  const type = typeof value
+  const found =
+    value === null
+      ? 'null'
+      : value === undefined
+      ? 'undefined'
+      : type === 'boolean'
+      ? 'a boolean'
+      : type === 'number'
+      ? 'a number'
+      : type === 'string'
+      ? 'a string'
+      : type === 'object'
+      ? Array.isArray(value)
+        ? `an array`
+        : `an object`
+      : `a ${type}`
+  return error(path, `expected ${expected}, found ${found}`, value)
+}
