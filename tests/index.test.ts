@@ -1,4 +1,4 @@
-import { expect, test } from 'vitest'
+import { assert, expect, test } from 'vitest'
 
 import * as t from '../src'
 
@@ -499,7 +499,7 @@ test('decodeOrThrow', () => {
 
   try {
     decoder.decodeOrThrow({})
-    fail()
+    assert(false)
   } catch (error) {
     expect(error).toMatchInlineSnapshot(
       `[Error: Decode Error at path=["a"] message="expected an array, found undefined"]`,
@@ -508,7 +508,7 @@ test('decodeOrThrow', () => {
 
   try {
     decoder.decodeOrThrow({ a: ['foo', 2] })
-    fail()
+    assert(false)
   } catch (error) {
     expect(error).toMatchInlineSnapshot(
       `[Error: Decode Error at path=["a",1] message="expected a string, found a number"]`,
@@ -517,7 +517,7 @@ test('decodeOrThrow', () => {
 
   try {
     decoder.decodeOrThrow({ a: () => {} })
-    fail()
+    assert(false)
   } catch (error) {
     expect(error).toMatchInlineSnapshot(
       `[Error: Decode Error at path=["a"] message="expected an array, found a function"]`,
