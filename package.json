@@ -18,10 +18,12 @@
     "test": "tsc && vitest --run",
     "prepare": "pnpm build",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "bench": "node --loader ts-node/esm benchmarks/index.ts"
   },
   "devDependencies": {
     "@types/node": "17.0.40",
+    "benny": "^3.7.1",
     "prettier": "2.6.2",
     "ts-node": "10.8.1",
     "tsup": "6.1.0",
