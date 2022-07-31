@@ -119,7 +119,7 @@ export const object = <T extends Record<string, unknown>>(fields: {
   [K in keyof T]: Decoder<T[K]>
 }): Decoder<T> =>
   new Decoder<T>(value => {
-    if (Object.prototype.toString.call(value) !== '[object Object]')
+    if (value === null || typeof value !== 'object' || Array.isArray(value))
       return expected([], 'an object', value)
 
     const valueAsRecord = value as Record<string, unknown>
