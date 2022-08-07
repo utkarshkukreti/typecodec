@@ -122,12 +122,10 @@ export const object = <T extends Record<string, unknown>>(fields: {
     if (value === null || typeof value !== 'object' || Array.isArray(value))
       return expected([], 'an object', value)
 
-    const valueAsRecord = value as Record<string, unknown>
-
     const decoded: Partial<T> = {}
 
     for (const key in fields) {
-      const d = fields[key].decode(valueAsRecord[key])
+      const d = fields[key].decode((value as Record<string, unknown>)[key])
       if (!d.ok) return error([key, ...d.path], d.message, d.value)
       decoded[key] = d.value
     }
