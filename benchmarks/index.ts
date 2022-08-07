@@ -39,5 +39,3 @@ benny.suite(
   benny.cycle(),
   benny.complete(),
 )
-
-export {}
