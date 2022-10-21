@@ -38,6 +38,15 @@ export class Decoder<T> {
     })
   }
 
+  filter(fun: (_: T) => boolean, message: string): Decoder<T> {
+    return new Decoder(value => {
+      const decoded = this.decode(value)
+      if (!decoded.ok) return decoded
+      if (!fun(decoded.value)) return error([], message, value)
+      return decoded
+    })
+  }
+
   array(): Decoder<T[]> {
     return new Decoder<T[]>(value => {
       if (!Array.isArray(value)) return expected([], 'an array', value)

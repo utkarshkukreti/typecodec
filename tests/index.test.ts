@@ -551,6 +551,40 @@ test('map', () => {
   `)
 })
 
+test('filter', () => {
+  const decode = t
+    .number()
+    .filter(
+      number => number >= 0 && number <= 10,
+      'expected number to be between 0 and 10',
+    ).decode
+
+  expect(decode('foo')).toMatchInlineSnapshot(`
+    {
+      "message": "expected a number, found a string",
+      "ok": false,
+      "path": [],
+      "value": "foo",
+    }
+  `)
+
+  expect(decode(-5)).toMatchInlineSnapshot(`
+    {
+      "message": "expected number to be between 0 and 10",
+      "ok": false,
+      "path": [],
+      "value": -5,
+    }
+  `)
+
+  expect(decode(5)).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": 5,
+    }
+  `)
+})
+
 test('decodeOrThrow', () => {
   const decoder = t.object({ a: t.string().array() })
 
