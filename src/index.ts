@@ -133,6 +133,17 @@ export const object = <T extends Record<string, unknown>>(fields: {
     return { ok: true, value: decoded as T }
   })
 
+export const json = <T>(decoder: Decoder<T>): Decoder<T> =>
+  new Decoder<T>(value => {
+    if (typeof value !== 'string') return expected([], 'a string', value)
+    try {
+      const parsed: unknown = JSON.parse(value)
+      return decoder.decode(parsed)
+    } catch (error_) {
+      return error([], '' + error_, value)
+    }
+  })
+
 const error = (path: Path, message: string, value: unknown): Error => ({
   ok: false,
   path,

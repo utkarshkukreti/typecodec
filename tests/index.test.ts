@@ -323,6 +323,63 @@ test('object', () => {
   `)
 })
 
+test('json', () => {
+  {
+    const decode = t.json(t.string()).decode
+
+    expect(decode('foo')).toMatchInlineSnapshot(`
+      {
+        "message": "SyntaxError: Unexpected token o in JSON at position 1",
+        "ok": false,
+        "path": [],
+        "value": "foo",
+      }
+    `)
+
+    expect(decode('"foo"')).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": "foo",
+      }
+    `)
+  }
+
+  {
+    const decode = t.json(t.object({ foo: t.number() })).decode
+
+    expect(decode('{}')).toMatchInlineSnapshot(`
+      {
+        "message": "expected a number, found undefined",
+        "ok": false,
+        "path": [
+          "foo",
+        ],
+        "value": undefined,
+      }
+    `)
+
+    expect(decode('{"foo": "bar"}')).toMatchInlineSnapshot(`
+      {
+        "message": "expected a number, found a string",
+        "ok": false,
+        "path": [
+          "foo",
+        ],
+        "value": "bar",
+      }
+    `)
+
+    expect(decode('{"foo": 123}')).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": {
+          "foo": 123,
+        },
+      }
+    `)
+  }
+})
+
 test('optional', () => {
   const decode = t.string().array().optional().decode
 
