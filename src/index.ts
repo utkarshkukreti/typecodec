@@ -48,7 +48,7 @@ export class Decoder<T> {
   }
 
   array(): Decoder<T[]> {
-    return new Decoder<T[]>(value => {
+    return new Decoder(value => {
       if (!Array.isArray(value)) return expected([], 'an array', value)
 
       const decoded = []
@@ -127,7 +127,7 @@ export const unknown = (): Decoder<unknown> =>
 export const object = <T extends Record<string, unknown>>(fields: {
   [K in keyof T]: Decoder<T[K]>
 }): Decoder<T> =>
-  new Decoder<T>(value => {
+  new Decoder(value => {
     if (value === null || typeof value !== 'object' || Array.isArray(value))
       return expected([], 'an object', value)
 
@@ -143,7 +143,7 @@ export const object = <T extends Record<string, unknown>>(fields: {
   })
 
 export const json = <T>(decoder: Decoder<T>): Decoder<T> =>
-  new Decoder<T>(value => {
+  new Decoder(value => {
     if (typeof value !== 'string') return expected([], 'a string', value)
     try {
       const parsed: unknown = JSON.parse(value)
