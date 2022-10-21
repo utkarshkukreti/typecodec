@@ -28,12 +28,12 @@
     "bench": "node --loader ts-node/esm benchmarks/index.ts"
   },
   "devDependencies": {
-    "@types/node": "18.6.4",
+    "@types/node": "18.11.3",
     "benny": "3.7.1",
     "prettier": "2.7.1",
     "ts-node": "10.9.1",
-    "tsup": "6.2.1",
-    "typescript": "4.7.4",
-    "vitest": "0.21.0"
+    "tsup": "6.3.0",
+    "typescript": "4.8.4",
+    "vitest": "0.24.3"
   }
 }
