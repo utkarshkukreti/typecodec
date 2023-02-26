@@ -142,6 +142,33 @@ export const object = <T extends Record<string, unknown>>(fields: {
     return { ok: true, value: decoded as T }
   })
 
+export const tuple = <T extends [Decoder<unknown>, ...Decoder<unknown>[]] | []>(
+  fields: T,
+): Decoder<{
+  [K in keyof T]: T[K] extends Decoder<infer U> ? U : never
+}> =>
+  new Decoder(value => {
+    if (!Array.isArray(value)) return expected([], 'an array', value)
+
+    if (value.length !== fields.length)
+      return expected([], `an array of length ${fields.length}`, value)
+
+    const decoded = []
+
+    for (let i = 0; i < fields.length; i++) {
+      const d = fields[i]!.decode(value[i])
+      if (!d.ok) return error([i, ...d.path], d.message, d.value)
+      decoded.push(d.value)
+    }
+
+    return {
+      ok: true,
+      value: decoded as {
+        [K in keyof T]: T[K] extends Decoder<infer U> ? U : never
+      },
+    }
+  })
+
 export const json = <T>(decoder: Decoder<T>): Decoder<T> =>
   new Decoder(value => {
     if (typeof value !== 'string') return expected([], 'a string', value)

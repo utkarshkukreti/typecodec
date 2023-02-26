@@ -323,6 +323,106 @@ test('object', () => {
   `)
 })
 
+test('tuple', () => {
+  const decode: (value: unknown) => t.Result<[boolean, number, string]> =
+    t.tuple([t.boolean(), t.number(), t.string()]).decode
+
+  expect(decode(false)).toMatchInlineSnapshot(`
+    {
+      "message": "expected an array, found a boolean",
+      "ok": false,
+      "path": [],
+      "value": false,
+    }
+  `)
+
+  expect(decode([])).toMatchInlineSnapshot(`
+    {
+      "message": "expected an array of length 3, found an array",
+      "ok": false,
+      "path": [],
+      "value": [],
+    }
+  `)
+
+  expect(decode([true])).toMatchInlineSnapshot(`
+    {
+      "message": "expected an array of length 3, found an array",
+      "ok": false,
+      "path": [],
+      "value": [
+        true,
+      ],
+    }
+  `)
+
+  expect(decode([true, 1])).toMatchInlineSnapshot(`
+    {
+      "message": "expected an array of length 3, found an array",
+      "ok": false,
+      "path": [],
+      "value": [
+        true,
+        1,
+      ],
+    }
+  `)
+
+  expect(decode([true, 1, 'foo'])).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": [
+        true,
+        1,
+        "foo",
+      ],
+    }
+  `)
+
+  expect(decode([true, 1, 'foo', 'bar'])).toMatchInlineSnapshot(`
+    {
+      "message": "expected an array of length 3, found an array",
+      "ok": false,
+      "path": [],
+      "value": [
+        true,
+        1,
+        "foo",
+        "bar",
+      ],
+    }
+  `)
+
+  expect(decode([true, 'foo', 'bar'])).toMatchInlineSnapshot(`
+    {
+      "message": "expected a number, found a string",
+      "ok": false,
+      "path": [
+        1,
+      ],
+      "value": "foo",
+    }
+  `)
+
+  expect(t.tuple([]).decode([])).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": [],
+    }
+  `)
+
+  expect(t.tuple([]).decode([1])).toMatchInlineSnapshot(`
+    {
+      "message": "expected an array of length 0, found an array",
+      "ok": false,
+      "path": [],
+      "value": [
+        1,
+      ],
+    }
+  `)
+})
+
 test('json', () => {
   {
     const decode = t.json(t.string()).decode
