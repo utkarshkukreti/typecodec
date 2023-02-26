@@ -151,7 +151,11 @@ export const tuple = <T extends [Decoder<unknown>, ...Decoder<unknown>[]] | []>(
     if (!Array.isArray(value)) return expected([], 'an array', value)
 
     if (value.length !== fields.length)
-      return expected([], `an array of length ${fields.length}`, value)
+      return error(
+        [],
+        `an array of length ${fields.length}, found an array of length ${value.length}`,
+        value,
+      )
 
     const decoded = []
 

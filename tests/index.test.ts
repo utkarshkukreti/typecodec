@@ -338,7 +338,7 @@ test('tuple', () => {
 
   expect(decode([])).toMatchInlineSnapshot(`
     {
-      "message": "expected an array of length 3, found an array",
+      "message": "an array of length 3, found an array of length 0",
       "ok": false,
       "path": [],
       "value": [],
@@ -347,7 +347,7 @@ test('tuple', () => {
 
   expect(decode([true])).toMatchInlineSnapshot(`
     {
-      "message": "expected an array of length 3, found an array",
+      "message": "an array of length 3, found an array of length 1",
       "ok": false,
       "path": [],
       "value": [
@@ -358,7 +358,7 @@ test('tuple', () => {
 
   expect(decode([true, 1])).toMatchInlineSnapshot(`
     {
-      "message": "expected an array of length 3, found an array",
+      "message": "an array of length 3, found an array of length 2",
       "ok": false,
       "path": [],
       "value": [
@@ -381,7 +381,7 @@ test('tuple', () => {
 
   expect(decode([true, 1, 'foo', 'bar'])).toMatchInlineSnapshot(`
     {
-      "message": "expected an array of length 3, found an array",
+      "message": "an array of length 3, found an array of length 4",
       "ok": false,
       "path": [],
       "value": [
@@ -413,7 +413,7 @@ test('tuple', () => {
 
   expect(t.tuple([]).decode([1])).toMatchInlineSnapshot(`
     {
-      "message": "expected an array of length 0, found an array",
+      "message": "an array of length 0, found an array of length 1",
       "ok": false,
       "path": [],
       "value": [
