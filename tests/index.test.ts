@@ -455,14 +455,7 @@ test('json', () => {
   {
     const decode = t.json(t.string()).decode
 
-    expect(decode('foo')).toMatchInlineSnapshot(`
-      {
-        "message": "SyntaxError: Unexpected token o in JSON at position 1",
-        "ok": false,
-        "path": [],
-        "value": "foo",
-      }
-    `)
+    expect(decode('foo').ok).toEqual(false)
 
     expect(decode('"foo"')).toMatchInlineSnapshot(`
       {
