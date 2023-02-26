@@ -421,6 +421,34 @@ test('tuple', () => {
       ],
     }
   `)
+
+  {
+    const decode = t
+      .tuple([t.number(), t.number()])
+      .filter(([a, b]) => a == b, 'expected equal numbers').decode
+
+    expect(decode([1, 2])).toMatchInlineSnapshot(`
+      {
+        "message": "expected equal numbers",
+        "ok": false,
+        "path": [],
+        "value": [
+          1,
+          2,
+        ],
+      }
+    `)
+
+    expect(decode([2, 2])).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": [
+          2,
+          2,
+        ],
+      }
+    `)
+  }
 })
 
 test('json', () => {
