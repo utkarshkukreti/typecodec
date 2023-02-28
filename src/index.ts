@@ -118,7 +118,7 @@ export const literal = <T extends boolean | number | string>(
 
 export const literals = <
   T extends boolean | number | string,
-  U extends [T, ...T[]],
+  U extends readonly [T, ...T[]],
 >(
   literals: U,
 ): Decoder<U[number]> => {

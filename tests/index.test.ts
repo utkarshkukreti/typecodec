@@ -202,6 +202,14 @@ test('literals', () => {
       "value": "bar",
     }
   `)
+
+  {
+    const literals = [1, 'foo'] as const
+
+    const decoder = t.literals(literals)
+
+    assertType<t.Decoder<1 | 'foo'>>(decoder)
+  }
 })
 
 test('null', () => {
