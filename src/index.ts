@@ -105,6 +105,17 @@ export const string = (): Decoder<string> =>
       : expected([], 'a string', value),
   )
 
+export const literal = <T extends boolean | number | string>(
+  literal: T,
+): Decoder<T> => {
+  const message = JSON.stringify(literal)
+  return new Decoder(value =>
+    value === literal
+      ? { ok: true, value: literal }
+      : expected([], message, value),
+  )
+}
+
 const null_ = (): Decoder<null> =>
   new Decoder(value =>
     value === null ? { ok: true, value } : expected([], 'null', value),

@@ -89,6 +89,77 @@ test('string', () => {
   `)
 })
 
+test('literal', () => {
+  {
+    const decoder: t.Decoder<1> = t.literal(1)
+
+    expect(decoder.decode(1)).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": 1,
+      }
+    `)
+
+    expect(decoder.decode(2)).toMatchInlineSnapshot(`
+      {
+        "message": "expected 1, found a number",
+        "ok": false,
+        "path": [],
+        "value": 2,
+      }
+    `)
+
+    expect(decoder.decode('foo')).toMatchInlineSnapshot(`
+      {
+        "message": "expected 1, found a string",
+        "ok": false,
+        "path": [],
+        "value": "foo",
+      }
+    `)
+  }
+
+  {
+    const decoder: t.Decoder<'foo'> = t.literal('foo')
+
+    expect(decoder.decode(1)).toMatchInlineSnapshot(`
+      {
+        "message": "expected \\"foo\\", found a number",
+        "ok": false,
+        "path": [],
+        "value": 1,
+      }
+    `)
+
+    expect(decoder.decode('foo')).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": "foo",
+      }
+    `)
+  }
+
+  {
+    const decoder: t.Decoder<true> = t.literal(true)
+
+    expect(decoder.decode(true)).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": true,
+      }
+    `)
+
+    expect(decoder.decode(false)).toMatchInlineSnapshot(`
+      {
+        "message": "expected true, found a boolean",
+        "ok": false,
+        "path": [],
+        "value": false,
+      }
+    `)
+  }
+})
+
 test('null', () => {
   const decode = t.null().decode
 
