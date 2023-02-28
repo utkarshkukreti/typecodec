@@ -121,7 +121,7 @@ export const literals = <
   U extends [T, ...T[]],
 >(
   literals: U,
-): Decoder<T> => {
+): Decoder<U[number]> => {
   const set: Set<unknown> = new Set(literals)
   const message = `one of [${literals
     .map(literal => JSON.stringify(literal))

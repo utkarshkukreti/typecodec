@@ -1,4 +1,4 @@
-import { assert, expect, test } from 'vitest'
+import { assert, assertType, expect, test } from 'vitest'
 
 import * as t from '../src'
 
@@ -161,7 +161,9 @@ test('literal', () => {
 })
 
 test('literals', () => {
-  const decoder: t.Decoder<1 | 'foo'> = t.literals([1, 'foo'])
+  const decoder = t.literals([1, 'foo'])
+
+  assertType<t.Decoder<1 | 'foo'>>(decoder)
 
   expect(decoder.decode(1)).toMatchInlineSnapshot(`
     {
