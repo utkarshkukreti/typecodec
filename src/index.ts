@@ -170,10 +170,12 @@ export const object = <T extends Record<string, unknown>>(fields: {
     return { ok: true, value: decoded as T }
   })
 
-export const tuple = <T extends [Decoder<unknown>, ...Decoder<unknown>[]] | []>(
+export const tuple = <
+  T extends readonly [Decoder<unknown>, ...Decoder<unknown>[]] | [],
+>(
   fields: T,
 ): Decoder<{
-  [K in keyof T]: T[K] extends Decoder<infer U> ? U : never
+  -readonly [K in keyof T]: T[K] extends Decoder<infer U> ? U : never
 }> =>
   new Decoder(value => {
     if (!Array.isArray(value)) return expected([], 'an array', value)
