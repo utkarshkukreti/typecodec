@@ -91,7 +91,9 @@ test('string', () => {
 
 test('literal', () => {
   {
-    const decoder: t.Decoder<1> = t.literal(1)
+    const decoder = t.literal(1)
+
+    assertType<t.Decoder<1>>(decoder)
 
     expect(decoder.decode(1)).toMatchInlineSnapshot(`
       {
@@ -120,7 +122,9 @@ test('literal', () => {
   }
 
   {
-    const decoder: t.Decoder<'foo'> = t.literal('foo')
+    const decoder = t.literal('foo')
+
+    assertType<t.Decoder<'foo'>>(decoder)
 
     expect(decoder.decode(1)).toMatchInlineSnapshot(`
       {
@@ -140,7 +144,9 @@ test('literal', () => {
   }
 
   {
-    const decoder: t.Decoder<true> = t.literal(true)
+    const decoder = t.literal(true)
+
+    assertType<t.Decoder<true>>(decoder)
 
     expect(decoder.decode(true)).toMatchInlineSnapshot(`
       {
