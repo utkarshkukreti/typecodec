@@ -116,6 +116,23 @@ export const literal = <T extends boolean | number | string>(
   )
 }
 
+export const literals = <
+  T extends boolean | number | string,
+  U extends [T, ...T[]],
+>(
+  literals: U,
+): Decoder<T> => {
+  const set: Set<unknown> = new Set(literals)
+  const message = `one of [${literals
+    .map(literal => JSON.stringify(literal))
+    .join(', ')}]`
+  return new Decoder(value =>
+    set.has(value)
+      ? { ok: true, value: value as T }
+      : expected([], message, value),
+  )
+}
+
 const null_ = (): Decoder<null> =>
   new Decoder(value =>
     value === null ? { ok: true, value } : expected([], 'null', value),

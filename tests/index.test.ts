@@ -160,6 +160,42 @@ test('literal', () => {
   }
 })
 
+test('literals', () => {
+  const decoder: t.Decoder<1 | 'foo'> = t.literals([1, 'foo'])
+
+  expect(decoder.decode(1)).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": 1,
+    }
+  `)
+
+  expect(decoder.decode(2)).toMatchInlineSnapshot(`
+    {
+      "message": "expected one of [1, \\"foo\\"], found a number",
+      "ok": false,
+      "path": [],
+      "value": 2,
+    }
+  `)
+
+  expect(decoder.decode('foo')).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": "foo",
+    }
+  `)
+
+  expect(decoder.decode('bar')).toMatchInlineSnapshot(`
+    {
+      "message": "expected one of [1, \\"foo\\"], found a string",
+      "ok": false,
+      "path": [],
+      "value": "bar",
+    }
+  `)
+})
+
 test('null', () => {
   const decode = t.null().decode
 
