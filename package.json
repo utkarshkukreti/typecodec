@@ -1,6 +1,6 @@
 {
   "name": "typecodec",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Fast, type-safe runtime validation of unknown data for TypeScript.",
   "keywords": [],
   "type": "module",
