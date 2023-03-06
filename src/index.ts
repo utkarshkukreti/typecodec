@@ -38,11 +38,19 @@ export class Decoder<T> {
     })
   }
 
-  filter(fun: (_: T) => boolean, message: string): Decoder<T> {
+  filter(
+    fun: (_: T) => boolean,
+    message: string | ((_: T) => string),
+  ): Decoder<T> {
     return new Decoder(value => {
       const decoded = this.decode(value)
       if (!decoded.ok) return decoded
-      if (!fun(decoded.value)) return error([], message, value)
+      if (!fun(decoded.value))
+        return error(
+          [],
+          typeof message === 'string' ? message : message(decoded.value),
+          value,
+        )
       return decoded
     })
   }

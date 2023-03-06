@@ -834,6 +834,38 @@ test('filter', () => {
       "value": 5,
     }
   `)
+
+  {
+    const decode = t.number().filter(
+      number => number >= 0 && number <= 10,
+      number => `expected a number between 0 and 10, found ${number}`,
+    ).decode
+
+    expect(decode('foo')).toMatchInlineSnapshot(`
+      {
+        "message": "expected a number, found a string",
+        "ok": false,
+        "path": [],
+        "value": "foo",
+      }
+    `)
+
+    expect(decode(-5)).toMatchInlineSnapshot(`
+      {
+        "message": "expected a number between 0 and 10, found -5",
+        "ok": false,
+        "path": [],
+        "value": -5,
+      }
+    `)
+
+    expect(decode(5)).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": 5,
+      }
+    `)
+  }
 })
 
 test('decodeOrThrow', () => {
