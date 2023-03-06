@@ -447,10 +447,11 @@ test('object', () => {
 })
 
 test('tuple', () => {
-  const decode: (value: unknown) => t.Result<[boolean, number, string]> =
-    t.tuple([t.boolean(), t.number(), t.string()]).decode
+  const decoder = t.tuple([t.boolean(), t.number(), t.string()])
 
-  expect(decode(false)).toMatchInlineSnapshot(`
+  assertType<t.Decoder<[boolean, number, string]>>(decoder)
+
+  expect(decoder.decode(false)).toMatchInlineSnapshot(`
     {
       "message": "expected an array, found a boolean",
       "ok": false,
@@ -459,7 +460,7 @@ test('tuple', () => {
     }
   `)
 
-  expect(decode([])).toMatchInlineSnapshot(`
+  expect(decoder.decode([])).toMatchInlineSnapshot(`
     {
       "message": "an array of length 3, found an array of length 0",
       "ok": false,
@@ -468,7 +469,7 @@ test('tuple', () => {
     }
   `)
 
-  expect(decode([true])).toMatchInlineSnapshot(`
+  expect(decoder.decode([true])).toMatchInlineSnapshot(`
     {
       "message": "an array of length 3, found an array of length 1",
       "ok": false,
@@ -479,7 +480,7 @@ test('tuple', () => {
     }
   `)
 
-  expect(decode([true, 1])).toMatchInlineSnapshot(`
+  expect(decoder.decode([true, 1])).toMatchInlineSnapshot(`
     {
       "message": "an array of length 3, found an array of length 2",
       "ok": false,
@@ -491,7 +492,7 @@ test('tuple', () => {
     }
   `)
 
-  expect(decode([true, 1, 'foo'])).toMatchInlineSnapshot(`
+  expect(decoder.decode([true, 1, 'foo'])).toMatchInlineSnapshot(`
     {
       "ok": true,
       "value": [
@@ -502,7 +503,7 @@ test('tuple', () => {
     }
   `)
 
-  expect(decode([true, 1, 'foo', 'bar'])).toMatchInlineSnapshot(`
+  expect(decoder.decode([true, 1, 'foo', 'bar'])).toMatchInlineSnapshot(`
     {
       "message": "an array of length 3, found an array of length 4",
       "ok": false,
@@ -516,7 +517,7 @@ test('tuple', () => {
     }
   `)
 
-  expect(decode([true, 'foo', 'bar'])).toMatchInlineSnapshot(`
+  expect(decoder.decode([true, 'foo', 'bar'])).toMatchInlineSnapshot(`
     {
       "message": "expected a number, found a string",
       "ok": false,
