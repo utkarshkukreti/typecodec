@@ -211,6 +211,26 @@ export const tuple = <
     }
   })
 
+export const stringRecord = <T>(
+  decoder: Decoder<T>,
+): Decoder<Record<string, T>> =>
+  new Decoder(value => {
+    if (value === null || typeof value !== 'object' || Array.isArray(value))
+      return expected([], 'an object', value)
+
+    const decoded: Record<string, T> = {}
+
+    for (const key in value) {
+      const d = decoder.decode((value as Record<string, unknown>)[key])
+
+      if (!d.ok) return error([key, ...d.path], d.message, d.value)
+
+      decoded[key] = d.value
+    }
+
+    return { ok: true, value: decoded }
+  })
+
 export const json = <T>(decoder: Decoder<T>): Decoder<T> =>
   new Decoder(value => {
     if (typeof value !== 'string') return expected([], 'a string', value)

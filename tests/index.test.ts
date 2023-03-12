@@ -581,6 +581,58 @@ test('tuple', () => {
   }
 })
 
+test('stringRecord', () => {
+  const decoder = t.stringRecord(t.number())
+
+  assertType<t.Decoder<Record<string, number>>>(decoder)
+
+  expect(decoder.decode(false)).toMatchInlineSnapshot(`
+    {
+      "message": "expected an object, found a boolean",
+      "ok": false,
+      "path": [],
+      "value": false,
+    }
+  `)
+
+  expect(decoder.decode({})).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": {},
+    }
+  `)
+
+  expect(decoder.decode({ foo: 1 })).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": {
+        "foo": 1,
+      },
+    }
+  `)
+
+  expect(decoder.decode({ foo: 1, bar: 2 })).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": {
+        "bar": 2,
+        "foo": 1,
+      },
+    }
+  `)
+
+  expect(decoder.decode({ foo: 1, bar: '2' })).toMatchInlineSnapshot(`
+    {
+      "message": "expected a number, found a string",
+      "ok": false,
+      "path": [
+        "bar",
+      ],
+      "value": "2",
+    }
+  `)
+})
+
 test('json', () => {
   {
     const decode = t.json(t.string()).decode
