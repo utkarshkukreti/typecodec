@@ -30,6 +30,11 @@ export class Decoder<T> {
     return decoded.value
   }
 
+  decodeOr<U>(value: unknown, or: U): T | U {
+    const decoded = this.decode(value)
+    return decoded.ok ? decoded.value : or
+  }
+
   map<U>(fun: (_: T) => U): Decoder<U> {
     return new Decoder(value => {
       const decoded = this.decode(value)

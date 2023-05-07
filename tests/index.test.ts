@@ -958,3 +958,19 @@ test('decodeOrThrow', () => {
     }
   `)
 })
+
+test('decodeOr', () => {
+  const decoder = t.object({ a: t.string() })
+
+  const value1 = decoder.decodeOr({}, null)
+  assertType<{ a: string } | null>(value1)
+  expect(value1).toMatchInlineSnapshot('null')
+
+  const value2 = decoder.decodeOr({}, { a: 1 })
+  assertType<{ a: string | number }>(value2)
+  expect(value2).toMatchInlineSnapshot(`
+    {
+      "a": 1,
+    }
+  `)
+})
