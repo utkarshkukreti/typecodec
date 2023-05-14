@@ -633,6 +633,66 @@ test('stringRecord', () => {
   `)
 })
 
+test('union', () => {
+  {
+    const decoder = t.union([t.number(), t.string()])
+
+    assertType<t.Decoder<string | number>>(decoder)
+
+    expect(decoder.decode(1)).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": 1,
+      }
+    `)
+
+    expect(decoder.decode('foo')).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": "foo",
+      }
+    `)
+
+    expect(decoder.decode(true)).toMatchInlineSnapshot(`
+      {
+        "message": "one of 2 decoders",
+        "ok": false,
+        "path": [],
+        "value": true,
+      }
+    `)
+  }
+
+  {
+    const decoder = t.union([t.literal(1), t.literal(true)])
+
+    assertType<t.Decoder<1 | true>>(decoder)
+
+    expect(decoder.decode(1)).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": 1,
+      }
+    `)
+
+    expect(decoder.decode('foo')).toMatchInlineSnapshot(`
+      {
+        "message": "one of 2 decoders",
+        "ok": false,
+        "path": [],
+        "value": "foo",
+      }
+    `)
+
+    expect(decoder.decode(true)).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": true,
+      }
+    `)
+  }
+})
+
 test('json', () => {
   {
     const decode = t.json(t.string()).decode

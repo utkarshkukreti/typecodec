@@ -236,6 +236,18 @@ export const stringRecord = <T>(
     return { ok: true, value: decoded }
   })
 
+export const union = <T extends readonly [unknown, ...unknown[]]>(decoders: {
+  [K in keyof T]: Decoder<T[K]>
+}): Decoder<T[number]> => {
+  return new Decoder(value => {
+    for (const decoder of decoders) {
+      const d = decoder.decode(value)
+      if (d.ok) return d
+    }
+    return error([], `one of ${decoders.length} decoders`, value)
+  })
+}
+
 export const json = <T>(decoder: Decoder<T>): Decoder<T> =>
   new Decoder(value => {
     if (typeof value !== 'string') return expected([], 'a string', value)
