@@ -2,7 +2,12 @@
   "name": "typecodec",
   "version": "0.10.3",
   "description": "Fast, type-safe runtime validation of unknown data for TypeScript.",
-  "keywords": [],
+  "keywords": [
+    "typescript",
+    "schema",
+    "validation",
+    "unknown"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/utkarshkukreti/typecodec"
