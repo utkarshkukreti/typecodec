@@ -693,6 +693,114 @@ test('union', () => {
   }
 })
 
+test('at', () => {
+  {
+    const decoder = t.at(['foo'], t.string())
+
+    assertType<t.Decoder<string>>(decoder)
+
+    expect(decoder.decode(1)).toMatchInlineSnapshot(`
+      {
+        "message": "expected an object, found a number",
+        "ok": false,
+        "path": [],
+        "value": 1,
+      }
+    `)
+
+    expect(decoder.decode({ foo: 1 })).toMatchInlineSnapshot(`
+      {
+        "message": "expected a string, found a number",
+        "ok": false,
+        "path": [
+          "foo",
+        ],
+        "value": 1,
+      }
+    `)
+
+    expect(decoder.decode({ foo: 'bar' })).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": "bar",
+      }
+    `)
+  }
+
+  {
+    const decoder = t.at(['foo', 0, 'bar'], t.string())
+
+    assertType<t.Decoder<string>>(decoder)
+
+    expect(decoder.decode(1)).toMatchInlineSnapshot(`
+      {
+        "message": "expected an object, found a number",
+        "ok": false,
+        "path": [],
+        "value": 1,
+      }
+    `)
+
+    expect(decoder.decode({ foo: 1 })).toMatchInlineSnapshot(`
+      {
+        "message": "expected an array, found a number",
+        "ok": false,
+        "path": [
+          "foo",
+        ],
+        "value": 1,
+      }
+    `)
+
+    expect(decoder.decode({ foo: [] })).toMatchInlineSnapshot(`
+      {
+        "message": "an array with index 0",
+        "ok": false,
+        "path": [
+          "foo",
+        ],
+        "value": [],
+      }
+    `)
+
+    expect(decoder.decode({ foo: [{ bar: 2 }] })).toMatchInlineSnapshot(`
+      {
+        "message": "expected a string, found a number",
+        "ok": false,
+        "path": [
+          "foo",
+          0,
+          "bar",
+        ],
+        "value": 2,
+      }
+    `)
+
+    expect(decoder.decode({ foo: [{ bar: 'baz' }] })).toMatchInlineSnapshot(`
+      {
+        "ok": true,
+        "value": "baz",
+      }
+    `)
+
+    expect(decoder.decode({ foo: { 0: { bar: 'baz' } } }))
+      .toMatchInlineSnapshot(`
+      {
+        "message": "expected an array, found an object",
+        "ok": false,
+        "path": [
+          "foo",
+        ],
+        "value": {
+          "0": {
+            "bar": "baz",
+          },
+        },
+      }
+    `)
+  }
+})
+
 test('json', () => {
   {
     const decode = t.json(t.string()).decode

@@ -248,6 +248,39 @@ export const union = <T extends readonly [unknown, ...unknown[]]>(decoders: {
   })
 }
 
+export const at = <T>(path: Path, decoder: Decoder<T>): Decoder<T> =>
+  new Decoder(value => {
+    for (let i = 0; i < path.length; i++) {
+      const keyOrIndex = path[i]!
+      if (typeof keyOrIndex === 'number') {
+        if (!Array.isArray(value))
+          return expected(path.slice(0, i), 'an array', value)
+        const value2 = value[keyOrIndex]
+        if (value2 === undefined)
+          return error(
+            path.slice(0, i),
+            `an array with index ${keyOrIndex}`,
+            value,
+          )
+        value = value2
+      } else {
+        if (value === null || typeof value !== 'object')
+          return expected(path.slice(0, i), 'an object', value)
+        const value2 = (value as Record<string, unknown>)[keyOrIndex]
+        if (value2 === undefined)
+          return error(
+            path.slice(0, i),
+            `an object with key ${JSON.stringify(keyOrIndex)}`,
+            value,
+          )
+        value = value2
+      }
+    }
+    const d = decoder.decode(value)
+    if (!d.ok) return error([...path, ...d.path], d.message, d.value)
+    return d
+  })
+
 export const json = <T>(decoder: Decoder<T>): Decoder<T> =>
   new Decoder(value => {
     if (typeof value !== 'string') return expected([], 'a string', value)
