@@ -1,6 +1,14 @@
+<div align="center">
+
 # typecodec
 
-> Under 1kB, fast, type-safe runtime validation of unknown data for TypeScript.
+Under 1kB, fast, type-safe runtime validation of unknown data for TypeScript.
+
+![Version](https://img.shields.io/npm/v/typecodec?style=for-the-badge)
+![Downloads](https://img.shields.io/npm/dt/typecodec?style=for-the-badge)
+![License](https://img.shields.io/npm/l/typecodec?style=for-the-badge)
+
+</div>
 
 Examples: [Tests](./tests/index.test.ts) | [Benchmarks](./benchmarks/index.ts)
 
