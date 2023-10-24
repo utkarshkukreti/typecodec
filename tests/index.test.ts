@@ -851,6 +851,145 @@ test('json', () => {
   }
 })
 
+test('lazy', () => {
+  type T = number | T[]
+
+  const decoder: t.Decoder<T> = t.union([
+    t.number(),
+    t.lazy(() => decoder).array(),
+  ])
+
+  const decode = decoder.decode
+
+  expect(decode(1)).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": 1,
+    }
+  `)
+
+  expect(decode([])).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": [],
+    }
+  `)
+
+  expect(decode([1])).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": [
+        1,
+      ],
+    }
+  `)
+
+  expect(decode([1, 2])).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": [
+        1,
+        2,
+      ],
+    }
+  `)
+
+  expect(decode([1, 2, [[[3]]]])).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": [
+        1,
+        2,
+        [
+          [
+            [
+              3,
+            ],
+          ],
+        ],
+      ],
+    }
+  `)
+
+  expect(decode([1, 2, [[[3]]], 4])).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": [
+        1,
+        2,
+        [
+          [
+            [
+              3,
+            ],
+          ],
+        ],
+        4,
+      ],
+    }
+  `)
+
+  expect(decode([1, 2, [[[3, '4']]]])).toMatchInlineSnapshot(`
+    {
+      "message": "one of 2 decoders",
+      "ok": false,
+      "path": [],
+      "value": [
+        1,
+        2,
+        [
+          [
+            [
+              3,
+              "4",
+            ],
+          ],
+        ],
+      ],
+    }
+  `)
+
+  expect(decode([1, 2, [[[3]], '4']])).toMatchInlineSnapshot(`
+    {
+      "message": "one of 2 decoders",
+      "ok": false,
+      "path": [],
+      "value": [
+        1,
+        2,
+        [
+          [
+            [
+              3,
+            ],
+          ],
+          "4",
+        ],
+      ],
+    }
+  `)
+
+  expect(decode([1, 2, [[[3]]], '4'])).toMatchInlineSnapshot(`
+    {
+      "message": "one of 2 decoders",
+      "ok": false,
+      "path": [],
+      "value": [
+        1,
+        2,
+        [
+          [
+            [
+              3,
+            ],
+          ],
+        ],
+        "4",
+      ],
+    }
+  `)
+})
+
 test('optional', () => {
   const decode = t.string().array().optional().decode
 
