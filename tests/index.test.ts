@@ -128,7 +128,7 @@ test('literal', () => {
 
     expect(decoder.decode(1)).toMatchInlineSnapshot(`
       {
-        "message": "expected \\"foo\\", found a number",
+        "message": "expected "foo", found a number",
         "ok": false,
         "path": [],
         "value": 1,
@@ -180,7 +180,7 @@ test('literals', () => {
 
   expect(decoder.decode(2)).toMatchInlineSnapshot(`
     {
-      "message": "expected one of [1, \\"foo\\"], found a number",
+      "message": "expected one of [1, "foo"], found a number",
       "ok": false,
       "path": [],
       "value": 2,
@@ -196,7 +196,7 @@ test('literals', () => {
 
   expect(decoder.decode('bar')).toMatchInlineSnapshot(`
     {
-      "message": "expected one of [1, \\"foo\\"], found a string",
+      "message": "expected one of [1, "foo"], found a string",
       "ok": false,
       "path": [],
       "value": "bar",
