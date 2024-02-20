@@ -281,6 +281,24 @@ export const at = <T>(path: Path, decoder: Decoder<T>): Decoder<T> =>
     return d
   })
 
+export const fork = <T extends [unknown, ...unknown[]]>(decoders: {
+  [K in keyof T]: Decoder<T[K]>
+}): Decoder<T> =>
+  new Decoder(value => {
+    const decoded = []
+
+    for (const decoder of decoders) {
+      const d = decoder.decode(value)
+      if (!d.ok) return d
+      decoded.push(d.value)
+    }
+
+    return {
+      ok: true,
+      value: decoded as T,
+    }
+  })
+
 export const json = <T>(decoder: Decoder<T>): Decoder<T> =>
   new Decoder(value => {
     if (typeof value !== 'string') return expected([], 'a string', value)
