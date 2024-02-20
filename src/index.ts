@@ -308,17 +308,17 @@ const expected = (path: Path, expected: string, value: unknown): Error => {
     value === null
       ? 'null'
       : value === undefined
-      ? 'undefined'
-      : type === 'boolean'
-      ? 'a boolean'
-      : type === 'number'
-      ? 'a number'
-      : type === 'string'
-      ? 'a string'
-      : type === 'object'
-      ? Array.isArray(value)
-        ? `an array`
-        : `an object`
-      : `a ${type}`
+        ? 'undefined'
+        : type === 'boolean'
+          ? 'a boolean'
+          : type === 'number'
+            ? 'a number'
+            : type === 'string'
+              ? 'a string'
+              : type === 'object'
+                ? Array.isArray(value)
+                  ? `an array`
+                  : `an object`
+                : `a ${type}`
   return error(path, `expected ${expected}, found ${found}`, value)
 }
