@@ -1,6 +1,8 @@
-import benny from 'benny'
+import { Bench } from 'tinybench'
 
 import * as t from '../src/index.js'
+
+const bench = new Bench({ time: 5_000 })
 
 const data = Object.freeze({
   number: 1,
@@ -31,11 +33,12 @@ const decoder = t.object({
   }),
 })
 
-benny.suite(
-  'moltar',
-  benny.add('Safe Parsing', () => {
-    decoder.decodeOrThrow(data)
-  }),
-  benny.cycle(),
-  benny.complete(),
-)
+bench.add('moltar: Safe Parsing', () => {
+  decoder.decodeOrThrow(data)
+})
+
+await bench.warmup()
+
+await bench.run()
+
+console.table(bench.table())
