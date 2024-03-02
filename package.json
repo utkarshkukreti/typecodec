@@ -31,7 +31,7 @@
   ],
   "scripts": {
     "build": "tsc && tsup src/index.ts --format cjs,esm --dts --clean",
-    "test": "tsc && vitest --run",
+    "test": "tsc && vitest",
     "prepare": "pnpm build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
