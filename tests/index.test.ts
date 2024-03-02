@@ -577,7 +577,7 @@ test('tuple', () => {
   {
     const decoders = [t.boolean(), t.number(), t.string()] as const
     const decoder = t.tuple(decoders)
-    assertType<t.Decoder<[boolean, number, string]>>(decoder)
+    assertType<t.Decoder<readonly [boolean, number, string]>>(decoder)
   }
 })
 
