@@ -30,12 +30,12 @@ export class Decoder<T> {
     return decoded.value
   }
 
-  decodeOr<U>(value: unknown, or: U): T | U {
+  decodeOr<const U>(value: unknown, or: U): T | U {
     const decoded = this.decode(value)
     return decoded.ok ? decoded.value : or
   }
 
-  map<U>(fun: (_: T) => U): Decoder<U> {
+  map<const U>(fun: (_: T) => U): Decoder<U> {
     return new Decoder(value => {
       const decoded = this.decode(value)
       if (!decoded.ok) return decoded
@@ -118,7 +118,7 @@ export const string = (): Decoder<string> =>
       : expected([], 'a string', value),
   )
 
-export const literal = <T extends boolean | number | string>(
+export const literal = <const T extends boolean | number | string>(
   literal: T,
 ): Decoder<T> => {
   const message = JSON.stringify(literal)
@@ -130,8 +130,8 @@ export const literal = <T extends boolean | number | string>(
 }
 
 export const literals = <
-  T extends boolean | number | string,
-  U extends readonly [T, ...T[]],
+  const T extends boolean | number | string,
+  const U extends readonly [T, ...T[]],
 >(
   literals: U,
 ): Decoder<U[number]> => {
@@ -165,7 +165,7 @@ export { undefined_ as undefined }
 export const unknown = (): Decoder<unknown> =>
   new Decoder(value => ({ ok: true, value }))
 
-export const object = <T extends Record<string, unknown>>(fields: {
+export const object = <const T extends Record<string, unknown>>(fields: {
   [K in keyof T]: Decoder<T[K]>
 }): Decoder<T> =>
   new Decoder(value => {
@@ -184,7 +184,7 @@ export const object = <T extends Record<string, unknown>>(fields: {
   })
 
 export const tuple = <
-  T extends readonly [unknown, ...unknown[]] | [],
+  const T extends readonly [unknown, ...unknown[]] | [],
 >(decoders: {
   [K in keyof T]: Decoder<T[K]>
 }): Decoder<T> =>
@@ -212,7 +212,7 @@ export const tuple = <
     }
   })
 
-export const stringRecord = <T>(
+export const stringRecord = <const T>(
   decoder: Decoder<T>,
 ): Decoder<Record<string, T>> =>
   new Decoder(value => {
@@ -232,7 +232,9 @@ export const stringRecord = <T>(
     return { ok: true, value: decoded }
   })
 
-export const union = <T extends readonly [unknown, ...unknown[]]>(decoders: {
+export const union = <
+  const T extends readonly [unknown, ...unknown[]],
+>(decoders: {
   [K in keyof T]: Decoder<T[K]>
 }): Decoder<T[number]> => {
   return new Decoder(value => {
@@ -277,7 +279,7 @@ export const at = <T>(path: Path, decoder: Decoder<T>): Decoder<T> =>
     return d
   })
 
-export const fork = <T extends [unknown, ...unknown[]]>(decoders: {
+export const fork = <const T extends [unknown, ...unknown[]]>(decoders: {
   [K in keyof T]: Decoder<T[K]>
 }): Decoder<T> =>
   new Decoder(value => {
