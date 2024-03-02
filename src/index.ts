@@ -309,6 +309,9 @@ export const json = <T>(decoder: Decoder<T>): Decoder<T> =>
 export const lazy = <T>(fun: () => Decoder<T>): Decoder<T> =>
   new Decoder(value => fun().decode(value))
 
+export const succeed = <const T>(value: T): Decoder<T> =>
+  new Decoder(() => ({ ok: true, value }))
+
 const error = (path: Path, message: string, value: unknown): Error => ({
   ok: false,
   path,

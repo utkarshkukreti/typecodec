@@ -1118,6 +1118,26 @@ test('lazy', () => {
   `)
 })
 
+test('succeed', () => {
+  const decoder = t.succeed(123)
+
+  assertType<t.Decoder<123>>(decoder)
+
+  expect(decoder.decode('foo')).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": 123,
+    }
+  `)
+
+  expect(decoder.decode(123)).toMatchInlineSnapshot(`
+    {
+      "ok": true,
+      "value": 123,
+    }
+  `)
+})
+
 test('optional', () => {
   const decode = t.string().array().optional().decode
 
