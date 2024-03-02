@@ -312,6 +312,9 @@ export const lazy = <T>(fun: () => Decoder<T>): Decoder<T> =>
 export const succeed = <const T>(value: T): Decoder<T> =>
   new Decoder(() => ({ ok: true, value }))
 
+export const fail = <T>(message: string): Decoder<T> =>
+  new Decoder(value => error([], message, value))
+
 const error = (path: Path, message: string, value: unknown): Error => ({
   ok: false,
   path,

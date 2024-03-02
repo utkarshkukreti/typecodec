@@ -1138,6 +1138,30 @@ test('succeed', () => {
   `)
 })
 
+test('fail', () => {
+  const decoder = t.fail('message')
+
+  assertType<t.Decoder<unknown>>(decoder)
+
+  expect(decoder.decode('foo')).toMatchInlineSnapshot(`
+    {
+      "message": "message",
+      "ok": false,
+      "path": [],
+      "value": "foo",
+    }
+  `)
+
+  expect(decoder.decode(123)).toMatchInlineSnapshot(`
+    {
+      "message": "message",
+      "ok": false,
+      "path": [],
+      "value": 123,
+    }
+  `)
+})
+
 test('optional', () => {
   const decode = t.string().array().optional().decode
 
