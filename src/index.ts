@@ -183,23 +183,25 @@ export const object = <T extends Record<string, unknown>>(fields: {
     return { ok: true, value: decoded as T }
   })
 
-export const tuple = <T extends readonly [unknown, ...unknown[]] | []>(fields: {
+export const tuple = <
+  T extends readonly [unknown, ...unknown[]] | [],
+>(decoders: {
   [K in keyof T]: Decoder<T[K]>
 }): Decoder<T> =>
   new Decoder(value => {
     if (!Array.isArray(value)) return expected([], 'an array', value)
 
-    if (value.length !== fields.length)
+    if (value.length !== decoders.length)
       return error(
         [],
-        `an array of length ${fields.length}, found an array of length ${value.length}`,
+        `an array of length ${decoders.length}, found an array of length ${value.length}`,
         value,
       )
 
     const decoded = []
 
-    for (let i = 0; i < fields.length; i++) {
-      const d = fields[i]!.decode(value[i])
+    for (let i = 0; i < decoders.length; i++) {
+      const d = decoders[i]!.decode(value[i])
       if (!d.ok) return error([i, ...d.path], d.message, d.value)
       decoded.push(d.value)
     }
