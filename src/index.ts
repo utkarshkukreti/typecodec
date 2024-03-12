@@ -129,12 +129,9 @@ export const literal = <const T extends boolean | number | string>(
   )
 }
 
-export const literals = <
-  const T extends boolean | number | string,
-  const U extends readonly [T, ...T[]],
->(
-  literals: U,
-): Decoder<U[number]> => {
+export const literals = <const T extends boolean | number | string>(
+  literals: readonly T[],
+): Decoder<T> => {
   const set: Set<unknown> = new Set(literals)
   const message = `one of [${literals
     .map(literal => JSON.stringify(literal))
