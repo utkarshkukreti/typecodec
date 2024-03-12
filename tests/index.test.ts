@@ -449,7 +449,7 @@ test('object', () => {
 test('tuple', () => {
   const decoder = t.tuple([t.boolean(), t.number(), t.string()])
 
-  assertType<t.Decoder<[boolean, number, string]>>(decoder)
+  assertType<t.Decoder<readonly [boolean, number, string]>>(decoder)
 
   expect(decoder.decode(false)).toMatchInlineSnapshot(`
     {
