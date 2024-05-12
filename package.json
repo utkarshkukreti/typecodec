@@ -38,12 +38,12 @@
     "bench": "vite-node benchmarks/index.ts"
   },
   "devDependencies": {
-    "@types/node": "20.11.29",
+    "@types/node": "20.12.11",
     "prettier": "3.2.5",
-    "tinybench": "2.6.0",
+    "tinybench": "2.8.0",
     "tsup": "8.0.2",
-    "typescript": "5.4.2",
-    "vite-node": "1.4.0",
-    "vitest": "1.4.0"
+    "typescript": "5.4.5",
+    "vite-node": "1.6.0",
+    "vitest": "1.6.0"
   }
 }
