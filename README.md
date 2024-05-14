@@ -2,7 +2,7 @@
 
 # typecodec
 
-Under 1kB, fast, type-safe runtime validation of unknown data for TypeScript.
+1kB, fast, type-safe runtime validation of unknown data for TypeScript.
 
 ![Version](https://img.shields.io/npm/v/typecodec?style=for-the-badge)
 ![Downloads](https://img.shields.io/npm/dt/typecodec?style=for-the-badge)
@@ -15,7 +15,7 @@ Examples: [Tests](./tests/index.test.ts) | [Benchmarks](./benchmarks/index.ts)
 
 ## Features
 
-- **Small**: Zero dependencies and under 1kB minified and gzipped.
+- **Small**: Zero dependencies and around 1kB minified and gzipped.
 - **Fast**: Decoders are optimized more for speed than for very detailed error messages.
 - **Immutable**: All functions and methods return new decoder instances.
 - **Safe**: All decoders return newly constructed values, never the original input.
