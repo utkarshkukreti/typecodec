@@ -35,7 +35,7 @@
     "test": "tsc && vitest",
     "prepare": "pnpm build",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "lint": "prettier --check .",
     "bench": "vite-node benchmarks/index.ts"
   },
   "devDependencies": {
