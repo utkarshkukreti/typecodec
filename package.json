@@ -29,6 +29,7 @@
     "dist",
     "src"
   ],
+  "packageManager": "pnpm@9.9.0",
   "scripts": {
     "build": "tsc && tsup src/index.ts --format cjs,esm --dts --clean",
     "test": "tsc && vitest",
