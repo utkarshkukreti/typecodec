@@ -37,8 +37,6 @@ bench.add('moltar: Safe Parsing', () => {
   decoder.decodeOrThrow(data)
 })
 
-await bench.warmup()
-
 await bench.run()
 
 console.table(bench.table())
