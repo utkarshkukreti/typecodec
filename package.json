@@ -29,7 +29,7 @@
     "dist",
     "src"
   ],
-  "packageManager": "pnpm@10.5.2",
+  "packageManager": "pnpm@10.6.2",
   "scripts": {
     "build": "tsc && tsup src/index.ts --format cjs,esm --dts --clean",
     "test": "tsc && vitest",
@@ -39,12 +39,12 @@
     "bench": "vite-node benchmarks/index.ts"
   },
   "devDependencies": {
-    "@types/node": "22.13.7",
-    "prettier": "3.5.2",
+    "@types/node": "22.13.10",
+    "prettier": "3.5.3",
     "tinybench": "3.1.1",
     "tsup": "8.4.0",
     "typescript": "5.8.2",
-    "vite-node": "3.0.7",
-    "vitest": "3.0.7"
+    "vite-node": "3.0.8",
+    "vitest": "3.0.8"
   }
 }
